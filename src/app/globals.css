@@ -1,0 +1,341 @@
+@import "tailwindcss";
+
+/* font families come from next/font (src/app/fonts.ts) as CSS variables on <html> */
+@theme inline {
+  --font-display: var(--ff-display), ui-serif, Georgia, serif;
+  --font-body: var(--ff-body), ui-sans-serif, system-ui, sans-serif;
+  --font-tamil: var(--ff-tamil), var(--ff-body), sans-serif;
+}
+
+@theme {
+  --color-sky-50: #e6f0fb;
+  --color-sky-100: #d3e5f9;
+  --color-sky-200: #bbd6f5;
+  --color-sky-300: #a9c9ef;
+  --color-steel-100: #b6cbdc;
+  --color-steel-300: #8fa9c4;
+  --color-steel-500: #6b8db0;
+  --color-navy: #0b2545;
+  --color-navy-700: #163a63;
+  --color-accent: #1e63c6;
+  /* same hue, darkened only for small text on the sky backgrounds so it clears WCAG AA */
+  --color-accent-ink: #1a56ad;
+  --color-paper: #f4f8fd;
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html[data-nointro] [data-preloader] {
+  display: none;
+}
+
+/* ---- Intro: pencil writes the wordmark, rules a line, the page splits open (CSS only) ---- */
+.intro {
+  --intro-w: min(86vw, 820px);
+  --ease-write: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+.intro__mark {
+  clip-path: inset(-30% 99% -30% -2%);
+  animation:
+    intro-write 0.8s var(--ease-write) 0.05s forwards,
+    intro-fade 0.15s linear 1.3s forwards;
+}
+.intro__word {
+  fill-opacity: 0;
+  animation: intro-fill 0.25s ease-out 0.7s forwards;
+}
+.intro__pencil {
+  opacity: 0;
+  /* tip position: start of the word, on its x-height */
+  left: calc(50% - var(--intro-w) / 2 + var(--intro-w) * 0.01);
+  top: calc(50% - var(--intro-w) * 0.0216);
+  animation:
+    intro-pencil 1.35s linear forwards,
+    intro-wiggle 0.1s ease-in-out 0.05s 8 alternate;
+}
+.intro__rule {
+  scale: 0 1;
+  animation:
+    intro-rule 0.35s cubic-bezier(0.65, 0, 0.35, 1) 1s forwards,
+    intro-fade 0.25s linear 1.45s forwards;
+}
+.intro__top {
+  animation: intro-top 0.5s cubic-bezier(0.65, 0, 0.35, 1) 1.35s forwards;
+}
+.intro__bottom {
+  animation: intro-bottom 0.5s cubic-bezier(0.65, 0, 0.35, 1) 1.35s forwards;
+}
+@keyframes intro-write {
+  to {
+    clip-path: inset(-30% -2% -30% -2%);
+  }
+}
+@keyframes intro-fill {
+  to {
+    fill-opacity: 1;
+  }
+}
+@keyframes intro-fade {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes intro-pencil {
+  0% {
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+    left: calc(50% - var(--intro-w) / 2 + var(--intro-w) * 0.01);
+    /* literal curve: var() is not honoured for timing functions inside keyframes */
+    animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  }
+  63% {
+    left: calc(50% - var(--intro-w) / 2 + var(--intro-w) * 0.99);
+    top: calc(50% - var(--intro-w) * 0.0216);
+  }
+  66% {
+    left: calc(50% - var(--intro-w) / 2 + var(--intro-w) * 0.99);
+    top: calc(50% - var(--intro-w) * 0.0216);
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  74% {
+    left: 0%;
+    top: 50%;
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  100% {
+    opacity: 1;
+    left: calc(100% + 60px);
+    top: 50%;
+  }
+}
+@keyframes intro-wiggle {
+  to {
+    translate: 0 calc(var(--intro-w) * -0.05);
+  }
+}
+@keyframes intro-rule {
+  to {
+    scale: 1 1;
+  }
+}
+@keyframes intro-top {
+  to {
+    translate: 0 -100%;
+  }
+}
+@keyframes intro-bottom {
+  to {
+    translate: 0 100%;
+  }
+}
+
+/* z-index scale: content 0, canvas 10, nav 30, preloader 50 */
+:root {
+  --z-canvas: 10;
+  --z-nav: 30;
+  --z-preloader: 50;
+  color-scheme: light;
+}
+
+@layer base {
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto;
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+body {
+  margin: 0;
+  background: var(--color-sky-100);
+  color: var(--color-navy);
+  font-family: var(--ff-body), system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--ff-display), Georgia, serif;
+  font-weight: 500;
+  font-variation-settings: "opsz" 96;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+h2 em,
+h1 em,
+h3 em {
+  font-style: italic;
+  font-weight: 400;
+  /* italic descender clearance */
+  padding-bottom: 0.08em;
+  display: inline-block;
+}
+}
+
+@layer components {
+/* nav gets a backdrop once the hero top has scrolled away */
+.nav-bar {
+  transition: background-color 0.4s var(--ease-out-soft), box-shadow 0.4s var(--ease-out-soft);
+}
+[data-scrolled] .nav-bar {
+  background: rgb(230 240 251 / 0.82);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  box-shadow: 0 1px 0 rgb(11 37 69 / 0.08);
+}
+@supports not (backdrop-filter: blur(1px)) {
+  [data-scrolled] .nav-bar {
+    background: rgb(230 240 251 / 0.97);
+  }
+}
+
+/* small letter-spaced capitals, used sparingly (3 sections) */
+.kicker {
+  font-family: var(--ff-body), system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-accent-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.sr-only-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The pencil and pen bands from the brochure, built in CSS so their copy stays real text. */
+.band {
+  --band-h: clamp(2.25rem, 4.2vw, 3rem);
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  height: var(--band-h);
+  filter: drop-shadow(0 6px 10px rgb(11 37 69 / 0.18));
+}
+.band__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 0 clamp(1rem, 3vw, 2.5rem);
+  color: #fff;
+  font-size: clamp(0.62rem, 0.9vw, 0.75rem);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.band__body i {
+  font-family: var(--ff-display), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 1.2em;
+  opacity: 0.92;
+}
+.band--pencil .band__body {
+  background: linear-gradient(180deg, #4a8ae6 0 18%, #2a6fd2 18% 82%, #1a55ad 82%);
+}
+.band--pencil .band__eraser {
+  width: calc(var(--band-h) * 1.1);
+  border-radius: calc(var(--band-h) * 0.35) 0 0 calc(var(--band-h) * 0.35);
+  background: linear-gradient(180deg, #f4f6f9, #d9dee6);
+}
+.band--pencil .band__ferrule {
+  width: calc(var(--band-h) * 0.9);
+  background: repeating-linear-gradient(90deg, #b9bec8 0 22%, #8e95a3 22% 30%), linear-gradient(180deg, #e4e7ec, #9aa2ae);
+  background-blend-mode: multiply;
+}
+.band--pencil .band__tip {
+  width: calc(var(--band-h) * 1.7);
+  background: linear-gradient(90deg, #e8cb9a 0 72%, var(--color-navy) 72%);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.band--pen .band__body {
+  background: linear-gradient(180deg, #4a8ae6 0 18%, #2a6fd2 18% 82%, #1a55ad 82%);
+}
+.band--pen .band__cap {
+  width: clamp(5rem, 11vw, 8rem);
+  border-radius: calc(var(--band-h) * 0.3) 0 0 calc(var(--band-h) * 0.3);
+  background: linear-gradient(180deg, #1c3b63 0 18%, var(--color-navy) 18% 82%, #06162b 82%);
+  position: relative;
+}
+.band--pen .band__cap::after {
+  /* clip */
+  content: "";
+  position: absolute;
+  left: 18%;
+  top: 22%;
+  width: 52%;
+  height: 16%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #f1f3f6, #aab1bc);
+}
+.band--pen .band__ring {
+  width: calc(var(--band-h) * 0.35);
+  background: linear-gradient(180deg, #f1f3f6, #9aa2ae);
+}
+.band--pen .band__grip {
+  width: calc(var(--band-h) * 0.9);
+  background: linear-gradient(180deg, #1c3b63, var(--color-navy) 50%, #06162b);
+}
+.band--pen .band__nib {
+  width: calc(var(--band-h) * 1.9);
+  background: linear-gradient(180deg, #f4f6f9 0 30%, #b9c0ca 50%, #8a93a1 100%);
+  clip-path: polygon(0 8%, 100% 50%, 0 92%);
+  position: relative;
+}
+.band--pen .band__nib::after {
+  content: "";
+  position: absolute;
+  left: 28%;
+  top: 49%;
+  width: 72%;
+  height: 2px;
+  background: var(--color-navy);
+}
+
+@media (max-width: 767px) {
+  .band__body {
+    justify-content: center;
+  }
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

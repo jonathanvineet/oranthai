@@ -1,0 +1,106 @@
+{
+  "brands": {
+    "3m": {
+      "aspect": 1.87,
+      "density": 0.731
+    },
+    "apsara": {
+      "aspect": 2.81,
+      "density": 0.337
+    },
+    "cadbury": {
+      "aspect": 2.344,
+      "density": 0.276
+    },
+    "camlin": {
+      "aspect": 3.971,
+      "density": 0.9
+    },
+    "casio": {
+      "aspect": 5.538,
+      "density": 0.61
+    },
+    "classmate": {
+      "aspect": 4.431,
+      "density": 0.891
+    },
+    "cross": {
+      "aspect": 1.785,
+      "density": 0.158
+    },
+    "faber-castell": {
+      "aspect": 3.234,
+      "density": 0.111
+    },
+    "flair": {
+      "aspect": 2.81,
+      "density": 0.667
+    },
+    "luxor": {
+      "aspect": 4.639,
+      "density": 0.556
+    },
+    "parker": {
+      "aspect": 1.107,
+      "density": 0.156
+    },
+    "pidilite": {
+      "aspect": 1.97,
+      "density": 0.245
+    },
+    "reynolds": {
+      "aspect": 2.46,
+      "density": 0.748
+    },
+    "sheaffer": {
+      "aspect": 2.344,
+      "density": 0.187
+    },
+    "sony": {
+      "aspect": 5.66,
+      "density": 0.427
+    },
+    "staedtler": {
+      "aspect": 1.004,
+      "density": 0.358
+    },
+    "uni-ball": {
+      "aspect": 5.769,
+      "density": 0.524
+    },
+    "waterman": {
+      "aspect": 3.448,
+      "density": 0.16
+    }
+  },
+  "clients": {
+    "canara-bank": {
+      "aspect": 1.265,
+      "density": 0.171
+    },
+    "grace-world": {
+      "aspect": 1,
+      "density": 0.785
+    },
+    "loyola": {
+      "aspect": 1,
+      "density": 0.785
+    },
+    "santhosh": {
+      "aspect": 1,
+      "density": 0.785
+    },
+    "sbi": {
+      "aspect": 2.895,
+      "density": 0.613
+    },
+    "snowman": {
+      "aspect": 1,
+      "density": 0.785
+    },
+    "starbox": {
+      "aspect": 3.463,
+      "density": 0.4
+    }
+  }
+}

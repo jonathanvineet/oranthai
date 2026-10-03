@@ -1,33 +1,29 @@
-# React + TypeScript + Vite
+# Oranthai
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Scroll-driven 3D site for Oranthai (Words Worth Book House & Stationeries Pvt. Ltd).
+Next.js (App Router) + React 19, Tailwind v4, three.js via @react-three/fiber and drei, GSAP + ScrollTrigger, Lenis.
 
-Currently, two official plugins are available:
+## Commands
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev          # http://localhost:3000  (append ?nointro to skip the intro)
+npm run build        # production build; the page is prerendered as static HTML
+npm start            # serve the production build on :3000
+npm run assets       # rebuild public/img from assets/extracted (logos, photos, brochure icons)
+npm run og           # re-render public/og.jpg from a running server
+npm run shoot -- name y:0 "#stores@800"   # Playwright screenshots at 1440 and 390
+scripts/lh.sh http://localhost:3000/ /tmp/lh.json   # Lighthouse (mobile) summary
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
-# oranthai
+Set `NEXT_PUBLIC_SITE_URL` to the production origin so Open Graph and canonical URLs are absolute.
+
+## Structure
+
+- `src/app/` layout (metadata, fonts via next/font, JSON-LD, intro gate) and the page.
+- `src/ClientShell.tsx` client boundary: motion environment, CSS intro, lazy WebGL stage.
+- `src/sections/` one file per section. Quote, Trusted by, Top brands, footer and nav are Server
+  Components with small client animation leaves (`components/ScrollFX.tsx`); Hero, Stores,
+  Products and Custom orders are client components.
+- `src/three/` WebGL scenes, all drawn into one shared canvas through drei `<View>`.
+- `src/data/site.ts` every company fact on the site. Nothing else should introduce claims.
