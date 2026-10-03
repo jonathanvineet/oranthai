@@ -12,7 +12,12 @@ const START = ["col-start-2", "col-start-4", "col-start-1", "col-start-3", "col-
 /** Diagonal corner ribbon, as on the brochure. */
 export function Ribbon({ children }: { children: string }) {
   return (
-    <div aria-hidden className="pointer-events-none absolute -right-14 top-10 w-64 rotate-[18deg] bg-navy py-2 text-center text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white shadow-[0_10px_24px_-12px_rgb(11_37_69/0.7)] md:-right-12 md:top-14">
+    // Phones: a centred pill above the heading (a diagonal corner ribbon would be cut off).
+    // Desktop: the brochure's diagonal corner ribbon.
+    <div
+      aria-hidden
+      className="pointer-events-none mx-auto mb-8 w-max rounded-full bg-navy px-4 py-1.5 text-center text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white shadow-[0_10px_24px_-12px_rgb(11_37_69/0.7)] md:absolute md:-right-12 md:top-14 md:mb-0 md:w-64 md:rotate-[18deg] md:rounded-none md:px-0 md:py-2 md:text-[0.7rem] md:tracking-[0.24em]"
+    >
       {children}
     </div>
   );
@@ -62,7 +67,7 @@ export function TrustedBy() {
           <span className="inline-flex items-center gap-2">
             <MaskIcon name="icon-phone" className="size-4 text-accent" />
             Call
-            <a href={`tel:+91${company.phones[0]}`} className="font-semibold text-navy underline decoration-accent decoration-2 underline-offset-4">
+            <a href={`tel:+91${company.phones[0]}`} className="hit font-semibold text-navy underline decoration-accent decoration-2 underline-offset-4">
               {company.phones[0]}
             </a>
             for regular orders.

@@ -29,7 +29,7 @@ export function TopBrands() {
               <span className="block font-display text-2xl font-medium">Brand not listed?</span>
               <span className="text-navy">
                 Ask us and we'll source it.{" "}
-                <a href={`tel:+91${company.phones[0]}`} className="font-semibold text-navy underline decoration-accent decoration-2 underline-offset-4">
+                <a href={`tel:+91${company.phones[0]}`} className="hit font-semibold text-navy underline decoration-accent decoration-2 underline-offset-4">
                   Call us
                 </a>
               </span>

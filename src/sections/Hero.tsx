@@ -49,8 +49,6 @@ export function Hero() {
       if (use3d) {
         tl.fromTo(band.current, { opacity: 0 }, { opacity: 1, duration: 0.09, ease: "none" }, 0.9);
         tl.to({}, { duration: 0.01 }, 0.99);
-      } else {
-        tl.fromTo(band.current, { scaleX: 0, transformOrigin: "left center" }, { scaleX: 1, duration: 1, ease: "power2.out" }, 0);
       }
       tl.to("[data-orb]", { yPercent: (i) => (i % 2 ? -18 : 14), ease: "none", duration: 1 }, 0);
     }, section);
@@ -73,7 +71,7 @@ export function Hero() {
       <Orb className="-right-28 top-1/3 size-64 bg-orb md:size-96" />
       <Orb className="-left-44 bottom-[8%] size-72 bg-peach md:size-96" />
       <Star className="left-[18%] top-[22%] size-5 text-sky-300" />
-      <Star small className="right-[24%] top-[14%] size-6 text-sky-300" />
+      <Star small className="right-[24%] top-[14%] size-6 text-sky-300 max-md:hidden" />
       <Star className="bottom-[18%] right-[12%] size-4 text-sky-300" />
 
       <div className="relative z-[1] flex w-full flex-col items-center px-4 text-center">
@@ -87,7 +85,7 @@ export function Hero() {
         </p>
         <h1
           id="hero-title"
-          className="m-0 mt-3 font-display text-[clamp(4rem,13vw,10.5rem)] font-semibold uppercase leading-[0.9] tracking-[0.02em] text-navy"
+          className="m-0 mt-3 font-display text-[clamp(3rem,14.5vw,10.5rem)] font-semibold uppercase leading-[0.9] tracking-[0.02em] text-navy"
           style={{ fontVariationSettings: '"opsz" 144' }}
         >
           Oranthai
@@ -97,7 +95,9 @@ export function Hero() {
         </p>
       </div>
 
-      <PencilBand ref={band} className="relative z-[1] mt-7 w-full md:mt-9" />
+      {/* Without the 3D pencil (phones, no WebGL) the band draws itself in with CSS (.band-draw), which
+          no scroll-trigger rebuild can interrupt. */}
+      <PencilBand ref={band} className={`relative z-[1] mt-7 w-full md:mt-9 ${animate && !(webgl && !mobile) ? "band-draw" : ""}`} />
 
       <div className="relative z-[1] mt-8 flex flex-col items-center gap-6 px-4 md:mt-10">
         <div ref={seal} className="relative grid size-52 place-items-center md:size-60">
@@ -119,7 +119,7 @@ export function Hero() {
         </div>
         <a
           href="#stores"
-          className="inline-flex items-center gap-2 rounded-full border-2 border-navy px-5 py-2.5 text-sm font-semibold text-navy no-underline transition-colors duration-300 hover:bg-navy hover:text-white active:scale-[0.98]"
+          className="inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-navy px-5 py-2.5 text-sm font-semibold text-navy no-underline transition-colors duration-300 hover:bg-navy hover:text-white active:scale-[0.98]"
         >
           <MaskIcon name="band-icon-pin" className="size-4" />
           Find a store

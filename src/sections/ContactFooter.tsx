@@ -68,7 +68,7 @@ export function ContactFooter() {
               ))}
             </ul>
 
-            <a href={`mailto:${company.email}`} className="mt-5 inline-flex items-center gap-3 text-lg font-medium text-sky-100 underline decoration-sky-300/60 underline-offset-4 hover:decoration-sky-300">
+            <a href={`mailto:${company.email}`} className="mt-5 inline-flex min-h-11 items-center gap-3 text-lg font-medium text-sky-100 underline decoration-sky-300/60 underline-offset-4 hover:decoration-sky-300">
               <MaskIcon name="icon-mail" className="size-5 text-sky-300" />
               {company.email}
             </a>
@@ -101,16 +101,16 @@ export function ContactFooter() {
           <span>GST No: {company.gst}</span>
           <span>Oranthai is the brand of {company.legalName}</span>
         </div>
-        <p className="mx-auto mt-3 max-w-[1200px] text-xs text-sky-200/80">
+        <p className="mx-auto mt-4 max-w-[1200px] text-xs leading-7 text-sky-200/80">
           3D models from Sketchfab, licensed{" "}
-          <a className="underline underline-offset-2" href="http://creativecommons.org/licenses/by/4.0/" rel="noopener license" target="_blank">
+          <a className="hit underline underline-offset-2" href="http://creativecommons.org/licenses/by/4.0/" rel="noopener license" target="_blank">
             CC BY 4.0
           </a>
           :{" "}
           {MODEL_CREDITS.map((c, i) => (
             <span key={c.title}>
               {i > 0 && ", "}
-              <a className="underline underline-offset-2" href={c.url} rel="noopener" target="_blank">
+              <a className="hit underline underline-offset-2" href={c.url} rel="noopener" target="_blank">
                 “{c.title}”
               </a>{" "}
               by {c.author}
