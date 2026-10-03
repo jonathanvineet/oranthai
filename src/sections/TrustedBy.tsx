@@ -25,7 +25,7 @@ function ClientBadge({ id, name, start }: { id: string; name: string; start: str
         {ROUND.has(id) ? (
           <Logo kind="clients" id={id} name={name} area={1e6} maxW={128} maxH={128} className="size-[88%]! rounded-full" />
         ) : (
-          <Logo kind="clients" id={id} name={name} area={5200} maxW={104} maxH={64} className="max-md:scale-[0.8]" />
+          <Logo kind="clients" id={id} name={name} area={5200} maxW={104} maxH={64} sm={{ area: 3400, maxW: 78, maxH: 46 }} />
         )}
       </span>
       <span className="max-w-[12ch] text-center text-sm font-semibold leading-tight text-navy">{name}</span>

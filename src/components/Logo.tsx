@@ -28,7 +28,9 @@ export function Logo({ kind, id, name, area, maxW, maxH, sm, className = "" }: {
   const small = sm ? logoSize(kind, id, sm.area, sm.maxW, sm.maxH) : lg;
   const vars = { "--w": `${small.width}px`, "--h": `${small.height}px`, "--w-md": `${lg.width}px`, "--h-md": `${lg.height}px` } as React.CSSProperties;
   return (
-    <picture>
+    // display: contents lets the <img> itself be the grid item, so it centres in the badge and
+    // percentage sizes resolve against the badge rather than an unsized inline <picture>.
+    <picture className="contents">
       <source type="image/webp" srcSet={`/img/${kind}/${id}.webp`} />
       <img
         src={`/img/${kind}/${id}.png`}

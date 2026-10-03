@@ -151,6 +151,11 @@ html[data-nointro] [data-preloader] {
 }
 
 @layer base {
+  /* <source> never renders; keep it out of layout when a <picture> is display: contents */
+  source {
+    display: none;
+  }
+
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: auto;
