@@ -29,7 +29,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#d3e5f9",
+  themeColor: "#f6ede4",
 };
 
 // Runs before first paint: skips the intro if it was already seen this session, the visitor

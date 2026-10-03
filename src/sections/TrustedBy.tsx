@@ -21,7 +21,7 @@ export function Ribbon({ children }: { children: string }) {
 function ClientBadge({ id, name, start }: { id: string; name: string; start: string }) {
   return (
     <li data-client className={`col-span-2 ${start} flex flex-col items-center gap-3`}>
-      <span className="grid size-24 place-items-center rounded-full bg-sky-50 shadow-[0_0_0_3px_#9bc4ef,0_18px_34px_-18px_rgb(11_37_69/0.6)] md:size-36">
+      <span className="grid size-24 place-items-center rounded-full bg-white shadow-[0_0_0_3px_#9cc3f0,0_18px_34px_-18px_rgb(11_37_69/0.6)] md:size-36">
         {ROUND.has(id) ? (
           <Logo kind="clients" id={id} name={name} area={1e6} maxW={128} maxH={128} className="size-[88%]! rounded-full" />
         ) : (
@@ -36,15 +36,15 @@ function ClientBadge({ id, name, start }: { id: string; name: string; start: str
 // Server Component: the fly-in is attached by <ScrollFX preset="clients">.
 export function TrustedBy() {
   return (
-    <section id="clients" aria-labelledby="clients-title" className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#8fa9c4_0%,#9fb7cf_100%)] px-4 py-24 md:px-8 md:py-32">
+    <section id="clients" aria-labelledby="clients-title" className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#e8ebf0_0%,#e5ecf6_55%,#f2eeeb_100%)] px-4 py-24 md:px-8 md:py-32">
       <ScrollFX root="clients" preset="clients" />
       <Ribbon>Corporate supplier</Ribbon>
-      <Orb className="-left-28 top-16 size-72 bg-steel-100/25" />
-      <Orb className="-right-24 bottom-0 size-80 bg-steel-100/20" />
-      <Star className="left-[30%] top-[9%] size-5 text-sky-100" />
+      <Orb className="-left-28 top-16 size-72 bg-orb" />
+      <Orb className="-right-24 bottom-0 size-80 bg-peach" />
+      <Star className="left-[30%] top-[9%] size-5 text-sky-300" />
 
       <div className="mx-auto max-w-5xl text-center">
-        <Heading id="clients-title" before="Trusted" accent="by" className="[&_em]:text-white">
+        <Heading id="clients-title" before="Trusted" accent="by">
           <p className="mx-auto mt-4 max-w-[40ch] font-medium text-navy">Companies and institutions that buy their supplies from us.</p>
         </Heading>
 

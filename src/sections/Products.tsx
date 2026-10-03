@@ -82,11 +82,11 @@ export function Products() {
       id="products"
       ref={section}
       aria-labelledby="products-title"
-      className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#d3e5f9_0%,#bbd6f5_100%)] md:h-[100dvh] md:min-h-[680px]"
+      className="relative isolate overflow-hidden bg-[linear-gradient(170deg,#f8f0d9_0%,#f9f7ea_50%,#eef1ea_100%)] md:h-[100dvh] md:min-h-[680px]"
     >
-      <Orb className="-left-24 top-1/3 size-72 bg-sky-50/60" />
-      <Orb className="-right-40 -bottom-40 size-[28rem] bg-sky-300/35" />
-      <Star className="left-[46%] top-[14%] size-5 text-sky-50" />
+      <Orb className="-left-24 top-1/3 size-72 bg-peach" />
+      <Orb className="-right-40 -bottom-40 size-[28rem] bg-orb" />
+      <Star className="left-[46%] top-[14%] size-5 text-sky-300" />
 
       <div className="relative mx-auto grid h-full max-w-[1400px] grid-cols-1 gap-8 px-4 py-20 md:grid-cols-12 md:gap-6 md:px-8 md:pb-10 md:pt-24">
         <div className="flex flex-col md:col-span-5">

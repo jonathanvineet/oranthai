@@ -51,9 +51,9 @@ export function Stores() {
   }, [animate, mobile, libs]);
 
   return (
-    <section id="stores" ref={section} aria-labelledby="stores-title" className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#bbd6f5_0%,#d3e5f9_55%,#d3e5f9_100%)] md:h-[100dvh] md:min-h-[680px]">
-      <Orb className="-left-32 bottom-10 size-80 bg-sky-50/60" />
-      <Orb className="-right-20 -top-24 size-72 bg-sky-200/70" />
+    <section id="stores" ref={section} aria-labelledby="stores-title" className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#f6ede4_0%,#fae3d3_30%,#fcefe2_100%)] md:h-[100dvh] md:min-h-[680px]">
+      <Orb className="-left-32 bottom-10 size-80 bg-orb" />
+      <Orb className="-right-20 -top-24 size-72 bg-peach" />
       <Star className="right-[38%] top-[12%] size-5 text-sky-300" />
 
       <div className="relative mx-auto grid h-full max-w-[1400px] grid-cols-1 gap-8 px-4 pb-20 pt-24 md:grid-cols-12 md:gap-6 md:px-8 md:pb-10 md:pt-24">

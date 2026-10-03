@@ -125,15 +125,15 @@ export function CustomOrders() {
         id="custom"
         ref={section}
         aria-labelledby="custom-title"
-        className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#6b8db0_0%,#8fa9c4_100%)] md:h-[100dvh] md:min-h-[720px]"
+        className="relative isolate overflow-hidden bg-[linear-gradient(170deg,#fbeecb_0%,#fdf2d6_50%,#fdf5de_100%)] md:h-[100dvh] md:min-h-[720px]"
       >
-        <Orb className="-right-24 top-[18%] size-80 bg-steel-100/25" />
-        <Orb className="-left-32 bottom-[6%] size-72 bg-steel-100/20" />
-        <Star className="left-[42%] top-[13%] size-5 text-sky-100" />
-        <Star small className="right-[9%] bottom-[22%] size-6 text-sky-100" />
+        <Orb className="-right-24 top-[18%] size-80 bg-orb" />
+        <Orb className="-left-32 bottom-[6%] size-72 bg-peach" />
+        <Star className="left-[42%] top-[13%] size-5 text-sky-300" />
+        <Star small className="right-[9%] bottom-[22%] size-6 text-sky-300" />
 
         <div className="relative mx-auto flex h-full max-w-[1400px] flex-col px-4 pb-16 pt-20 md:px-8 md:pb-8 md:pt-24">
-          <Heading id="custom-title" before="Custom" accent="orders" className="[&_em]:text-white">
+          <Heading id="custom-title" before="Custom" accent="orders">
             <p className="mt-3 max-w-[44ch] font-medium text-navy">Personalised with your name or logo, for schools, offices and events.</p>
           </Heading>
 
@@ -184,7 +184,7 @@ export function CustomOrders() {
           )}
 
           <div className="mt-8 md:mt-4">
-            <WavyDivider className="max-w-md text-sky-100" />
+            <WavyDivider className="max-w-md text-sky-300" />
             <h3 className="mb-0 mt-4 text-2xl">Customisations</h3>
             <ul className="m-0 mt-2 flex list-none flex-wrap gap-x-5 gap-y-2 p-0 text-sm font-semibold uppercase tracking-[0.14em]">
               {customisations.map((c, i) => {

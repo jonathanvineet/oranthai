@@ -66,12 +66,12 @@ export function Hero() {
       id="top"
       ref={section}
       aria-labelledby="hero-title"
-      className="relative isolate flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden bg-[radial-gradient(120%_80%_at_50%_0%,#e6f0fb_0%,#d3e5f9_45%,#bbd6f5_100%)] py-20 md:pb-10 md:pt-20"
+      className="relative isolate flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden bg-[linear-gradient(160deg,#fae3d3_0%,#f6ede4_45%,#ecedef_100%)] py-20 md:pb-10 md:pt-20"
     >
       <span id="top-sentinel" aria-hidden className="absolute left-0 top-0 h-24 w-px" />
-      <Orb className="-left-24 -top-24 size-72 bg-sky-200/80 md:size-[26rem]" />
-      <Orb className="-right-28 top-1/3 size-64 bg-sky-200/70 md:size-96" />
-      <Orb className="-left-44 bottom-[8%] size-72 bg-sky-50/70 md:size-96" />
+      <Orb className="-left-24 -top-24 size-72 bg-orb md:size-[26rem]" />
+      <Orb className="-right-28 top-1/3 size-64 bg-orb md:size-96" />
+      <Orb className="-left-44 bottom-[8%] size-72 bg-peach md:size-96" />
       <Star className="left-[18%] top-[22%] size-5 text-sky-300" />
       <Star small className="right-[24%] top-[14%] size-6 text-sky-300" />
       <Star className="bottom-[18%] right-[12%] size-4 text-sky-300" />

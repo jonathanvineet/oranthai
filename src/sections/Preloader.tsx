@@ -53,8 +53,8 @@ export function Preloader({ onDone }: { onDone: () => void }) {
 
   return (
     <div ref={root} aria-hidden data-preloader className="intro fixed inset-0" style={{ zIndex: "var(--z-preloader)" }}>
-      <div className="intro__top absolute inset-x-0 top-0 h-1/2 bg-sky-100" />
-      <div className="intro__bottom absolute inset-x-0 bottom-0 h-1/2 bg-sky-100" />
+      <div className="intro__top absolute inset-x-0 top-0 h-1/2 bg-linen" />
+      <div className="intro__bottom absolute inset-x-0 bottom-0 h-1/2 bg-linen" />
       <svg viewBox="0 0 1000 220" className="intro__mark absolute left-1/2 top-1/2 w-[var(--intro-w)] -translate-x-1/2 -translate-y-[78%] overflow-visible">
         <text
           x="500"

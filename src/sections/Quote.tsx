@@ -5,12 +5,12 @@ import { ScrollFX } from "../components/ScrollFX";
 // Server Component: static markup; the word-by-word reveal is attached by <ScrollFX preset="quote">.
 export function Quote() {
   return (
-    <section id="kural" aria-label={`Thirukkural ${kural.number}`} className="relative isolate overflow-hidden bg-sky-200 px-4 py-28 md:py-40">
+    <section id="kural" aria-label={`Thirukkural ${kural.number}`} className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#ecedef_0%,#f6ede4_100%)] px-4 py-28 md:py-40">
       <ScrollFX root="kural" preset="quote" />
-      <Orb className="-right-32 -top-20 size-80 bg-sky-100/70" />
-      <Orb className="-bottom-28 -left-24 size-72 bg-sky-300/40" />
-      <Star className="left-[12%] top-[20%] size-5 text-sky-50" />
-      <Star small className="bottom-[16%] right-[14%] size-6 text-sky-50" />
+      <Orb className="-right-32 -top-20 size-80 bg-peach" />
+      <Orb className="-bottom-28 -left-24 size-72 bg-orb" />
+      <Star className="left-[12%] top-[20%] size-5 text-sky-300" />
+      <Star small className="bottom-[16%] right-[14%] size-6 text-sky-300" />
 
       <figure className="relative mx-auto m-0 max-w-4xl text-center" data-kural>
         <span

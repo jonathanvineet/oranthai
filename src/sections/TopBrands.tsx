@@ -9,16 +9,16 @@ import { Ribbon } from "./TrustedBy";
 // Server Component: the drift-in is attached by <ScrollFX preset="brands">.
 export function TopBrands() {
   return (
-    <section id="brands" aria-labelledby="brands-title" className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#9fb7cf_0%,#b6cbdc_100%)] px-4 pb-40 pt-24 md:px-8 md:pb-48 md:pt-32">
+    <section id="brands" aria-labelledby="brands-title" className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#f2eeeb_0%,#eef1ea_25%,#e6eef1_60%,#f3f3ea_100%)] px-4 pb-40 pt-24 md:px-8 md:pb-48 md:pt-32">
       <ScrollFX root="brands" preset="brands" />
       <Ribbon>Lowest price</Ribbon>
-      <Orb className="-left-20 bottom-24 size-80 bg-steel-100/40" />
-      <Star className="right-[22%] top-[8%] size-5 text-sky-50" />
-      <Star small className="left-[8%] top-[40%] size-6 text-sky-50" />
+      <Orb className="-left-20 bottom-24 size-80 bg-orb" />
+      <Star className="right-[22%] top-[8%] size-5 text-sky-300" />
+      <Star small className="left-[8%] top-[40%] size-6 text-sky-300" />
 
       <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-14 md:grid-cols-12 md:gap-10">
         <div className="md:col-span-5">
-          <Heading id="brands-title" kicker="Direct suppliers" before="Top" accent="brands" className="[&_.kicker]:text-navy [&_em]:text-white">
+          <Heading id="brands-title" kicker="Direct suppliers" before="Top" accent="brands">
             <p className="mt-4 max-w-[36ch] font-medium text-navy">We buy direct from the makers, so you pay the lowest price.</p>
           </Heading>
           <p className="mt-6 font-display text-xl italic text-navy">{taglines.brands}.</p>

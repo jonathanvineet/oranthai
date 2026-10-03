@@ -4,6 +4,8 @@ import { PerspectiveCamera, View } from "@react-three/drei";
 import * as THREE from "three";
 import { Pencil, PENCIL_RADIUS, setGroupOpacity, type PencilHandle } from "./Pencil";
 import { StudioLights } from "./StudioLights";
+import { FountainPen } from "./FountainPen";
+import { Books, GiftBox, Watch } from "./Props";
 import type { Progress } from "../lib/motion";
 
 type Props = {
@@ -84,12 +86,78 @@ function PencilRig({ progress, bandRef, anchorRef, mobile }: Props) {
   );
 }
 
+// The still life that circles the seal: what Oranthai sells, in miniature.
+const ORBIT = [
+  { key: "pen", phase: 0, scale: 0.42, tilt: [0.2, 0, 0.5], rock: false },
+  { key: "books", phase: Math.PI / 2, scale: 0.95, tilt: [0.35, 0, 0], rock: false },
+  // the watch rocks instead of spinning so its face stays readable
+  { key: "watch", phase: Math.PI, scale: 1.25, tilt: [-0.1, 0, 0], rock: true },
+  { key: "gift", phase: (Math.PI * 3) / 2, scale: 0.9, tilt: [0.3, 0.4, 0], rock: false },
+] as const;
+
+function OrbitRig({ progress, bandRef, anchorRef, mobile }: Props) {
+  const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
+  const items = useRef<(THREE.Group | null)[]>([]);
+  const spins = useRef<(THREE.Group | null)[]>([]);
+
+  useFrame((state) => {
+    const anchor = anchorRef.current;
+    const band = bandRef.current;
+    if (!anchor || !band) return;
+    const vh = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * camera.position.z;
+    const vw = vh * camera.aspect;
+    const host = (band.closest("section") ?? band).getBoundingClientRect();
+    const a = anchor.getBoundingClientRect();
+    const cx = ((a.left + a.width / 2 - host.left) / host.width - 0.5) * vw;
+    const cy = -((a.top + a.height / 2 - host.top) / host.height - 0.5) * vh;
+    const R = (a.width / 2) * (vw / host.width);
+
+    // As the pencil starts to lie down, the orbit spins outward and fades, clearing the stage.
+    const leave = THREE.MathUtils.smoothstep(progress.current, 0, 0.4);
+    const spread = 1 + leave * 1.8;
+    const t = state.clock.elapsedTime;
+    const rx = R * (mobile ? 1.5 : 2.35) * spread;
+    const ry = R * 1.3 * spread;
+
+    ORBIT.forEach((o, i) => {
+      const g = items.current[i];
+      const sp = spins.current[i];
+      if (!g || !sp) return;
+      const th = o.phase + t * 0.22 + leave * 1.2;
+      // Tilted ring seen from slightly above: far side recedes, near side comes forward.
+      const depth = -Math.sin(th);
+      g.position.set(cx + Math.cos(th) * rx, cy + Math.sin(th) * ry * 0.92, depth * R * 1.1);
+      g.scale.setScalar(R * o.scale * (mobile ? 0.85 : 1) * (0.88 + 0.12 * depth));
+      const turn = o.rock ? Math.sin(t * 0.8) * 0.5 : t * 0.55 + i;
+      sp.rotation.set(o.tilt[0] + Math.sin(t * 0.7 + i) * 0.12, o.tilt[1] + turn, o.tilt[2]);
+      setGroupOpacity(g, 1 - leave);
+    });
+  });
+
+  const keep = (arr: typeof items, i: number) => (el: THREE.Group | null) => void (arr.current[i] = el);
+  return (
+    <>
+      {ORBIT.map((o, i) => (
+        <group key={o.key} ref={keep(items, i)}>
+          <group ref={keep(spins, i)}>
+            {o.key === "pen" && <FountainPen />}
+            {o.key === "books" && <Books />}
+            {o.key === "watch" && <Watch />}
+            {o.key === "gift" && <GiftBox />}
+          </group>
+        </group>
+      ))}
+    </>
+  );
+}
+
 export default function HeroScene(props: Props) {
   return (
     <View className="pointer-events-none absolute inset-0">
       <PerspectiveCamera makeDefault position={[0, 0, 14]} fov={30} />
       <StudioLights cheap={props.mobile} />
       <PencilRig {...props} />
+      <OrbitRig {...props} />
     </View>
   );
 }
