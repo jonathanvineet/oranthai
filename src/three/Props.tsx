@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 import { useFrame, type ThreeElements } from "@react-three/fiber";
 import * as THREE from "three";
 
+
 // Procedural still-life props for the hero orbit: books, a wristwatch and a gift box.
 // Each is roughly 1 unit across so the orbit can scale them uniformly. Colours follow the
 // brochure's pastel washes with the navy and blue brand inks.
@@ -131,3 +132,4 @@ export const GiftBox = forwardRef<THREE.Group, G>(function GiftBox(props, ref) {
     </group>
   );
 });
+

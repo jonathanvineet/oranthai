@@ -2,6 +2,14 @@ import { branches, company } from "../data/site";
 import { MaskIcon } from "../components/Icon";
 import { ScrollFX } from "../components/ScrollFX";
 
+// CC-BY-4.0 attribution for the 3D models (see public/models/CREDITS.txt).
+const MODEL_CREDITS = [
+  { title: "Apple Watch Ultra 2", author: "polyman", url: "https://sketchfab.com/3d-models/apple-watch-ultra-2-f33263c457664b43909200c5ed5e6fa2" },
+  { title: "Luxury Pen", author: "dylanheyes", url: "https://sketchfab.com/3d-models/luxury-pen-11c3a825d8cd4c16ab2edc3f5613fd84" },
+  { title: "Pile of books", author: "Brenwltrs", url: "https://sketchfab.com/3d-models/pile-of-books-822e51eef741496d926bea1fbc32db7b" },
+  { title: "Gift Box", author: "MaX3Dd", url: "https://sketchfab.com/3d-models/gift-box-33bb8031d7ac40758575835cec277761" },
+];
+
 // Server Component: the signature and bubble animations are attached by <ScrollFX preset="footer">.
 export function ContactFooter() {
   return (
@@ -93,6 +101,23 @@ export function ContactFooter() {
           <span>GST No: {company.gst}</span>
           <span>Oranthai is the brand of {company.legalName}</span>
         </div>
+        <p className="mx-auto mt-3 max-w-[1200px] text-xs text-sky-200/80">
+          3D models from Sketchfab, licensed{" "}
+          <a className="underline underline-offset-2" href="http://creativecommons.org/licenses/by/4.0/" rel="noopener license" target="_blank">
+            CC BY 4.0
+          </a>
+          :{" "}
+          {MODEL_CREDITS.map((c, i) => (
+            <span key={c.title}>
+              {i > 0 && ", "}
+              <a className="underline underline-offset-2" href={c.url} rel="noopener" target="_blank">
+                “{c.title}”
+              </a>{" "}
+              by {c.author}
+            </span>
+          ))}
+          .
+        </p>
       </div>
     </footer>
   );

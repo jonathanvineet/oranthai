@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, type RefObject } from "react";
+import { Suspense, useEffect, useMemo, useRef, type RefObject } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { PerspectiveCamera, View } from "@react-three/drei";
 import * as THREE from "three";
@@ -215,9 +215,12 @@ function MapRig({ progress, mapRef, sectionRef, leaders }: Props) {
 export default function StoresScene(props: Props) {
   return (
     <View className="pointer-events-none absolute inset-0">
-      <PerspectiveCamera makeDefault position={[0, 0, 14]} fov={30} />
-      <StudioLights />
-      <MapRig {...props} />
+      {/* Own boundary: a scene that is still loading must not blank the shared canvas (and every other scene). */}
+      <Suspense fallback={null}>
+        <PerspectiveCamera makeDefault position={[0, 0, 14]} fov={30} />
+        <StudioLights />
+        <MapRig {...props} />
+      </Suspense>
     </View>
   );
 }

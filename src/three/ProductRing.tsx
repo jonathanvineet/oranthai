@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { Suspense, useEffect, useMemo, useRef } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { PerspectiveCamera, View } from "@react-three/drei";
 import * as THREE from "three";
@@ -98,9 +98,12 @@ function Ring({ progress }: { progress: Progress }) {
 export default function ProductRing({ progress }: { progress: Progress }) {
   return (
     <View className="pointer-events-none absolute inset-0">
-      <PerspectiveCamera makeDefault position={[0, 0.35, 9]} fov={36} />
-      <StudioLights cheap />
-      <Ring progress={progress} />
+      {/* Own boundary: a scene that is still loading must not blank the shared canvas (and every other scene). */}
+      <Suspense fallback={null}>
+        <PerspectiveCamera makeDefault position={[0, 0.35, 9]} fov={36} />
+        <StudioLights cheap />
+        <Ring progress={progress} />
+      </Suspense>
     </View>
   );
 }

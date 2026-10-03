@@ -10,7 +10,8 @@
     "assets": "node scripts/build-assets.mjs",
     "og": "node scripts/og-image.mjs",
     "shoot": "node scripts/shoot.mjs",
-    "lint": "oxlint src"
+    "lint": "oxlint src",
+    "models": "node scripts/build-models.mjs"
   },
   "dependencies": {
     "@fontsource/fraunces": "^5.3.0",
@@ -26,6 +27,7 @@
     "three": "^0.186.1"
   },
   "devDependencies": {
+    "@gltf-transform/cli": "^4.5.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",

@@ -1,0 +1,11 @@
+3D models from Sketchfab, all licensed CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/).
+Optimised and, where noted, recoloured toward the site palette by scripts/build-models.mjs.
+
+apple-watch-ultra-2.glb  "Apple Watch Ultra 2" by polyman (https://sketchfab.com/Polyman_3D)
+                         https://sketchfab.com/3d-models/apple-watch-ultra-2-f33263c457664b43909200c5ed5e6fa2
+luxury-pen.glb           "Luxury Pen" by dylanheyes (https://sketchfab.com/dylanheyes), body tinted navy in code
+                         https://sketchfab.com/3d-models/luxury-pen-11c3a825d8cd4c16ab2edc3f5613fd84
+pile-of-books.glb        "Pile of books" by Brenwltrs (https://sketchfab.com/Brenwltrs), purple and pink covers recoloured
+                         https://sketchfab.com/3d-models/pile-of-books-822e51eef741496d926bea1fbc32db7b
+gift-box.glb             "Gift Box" by MaX3Dd (https://sketchfab.com/MaX3Dd), red wrapping recoloured blue
+                         https://sketchfab.com/3d-models/gift-box-33bb8031d7ac40758575835cec277761

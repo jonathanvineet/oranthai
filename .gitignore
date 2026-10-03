@@ -28,3 +28,4 @@ shots/
 out/
 next-env.d.ts
 *.tsbuildinfo
+assets/models-src/

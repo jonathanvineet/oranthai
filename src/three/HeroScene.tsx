@@ -1,4 +1,4 @@
-import { useRef, type RefObject } from "react";
+import { Suspense, useRef, type RefObject } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { PerspectiveCamera, View } from "@react-three/drei";
 import * as THREE from "three";
@@ -6,6 +6,9 @@ import { Pencil, PENCIL_RADIUS, setGroupOpacity, type PencilHandle } from "./Pen
 import { StudioLights } from "./StudioLights";
 import { FountainPen } from "./FountainPen";
 import { Books, GiftBox, Watch } from "./Props";
+import { BooksModel, GiftModel, PenModel, WatchModel, preloadModels } from "./Models";
+
+preloadModels();
 import type { Progress } from "../lib/motion";
 
 type Props = {
@@ -91,7 +94,7 @@ const ORBIT = [
   { key: "pen", phase: 0, scale: 0.42, tilt: [0.2, 0, 0.5], rock: false },
   { key: "books", phase: Math.PI / 2, scale: 0.95, tilt: [0.35, 0, 0], rock: false },
   // the watch rocks instead of spinning so its face stays readable
-  { key: "watch", phase: Math.PI, scale: 1.25, tilt: [-0.1, 0, 0], rock: true },
+  { key: "watch", phase: Math.PI, scale: 1.0, tilt: [-0.1, 0, 0], rock: true },
   { key: "gift", phase: (Math.PI * 3) / 2, scale: 0.9, tilt: [0.3, 0.4, 0], rock: false },
 ] as const;
 
@@ -117,7 +120,8 @@ function OrbitRig({ progress, bandRef, anchorRef, mobile }: Props) {
     const spread = 1 + leave * 1.8;
     const t = state.clock.elapsedTime;
     const rx = R * (mobile ? 1.5 : 2.35) * spread;
-    const ry = R * 1.3 * spread;
+    // Flatter and lifted slightly, so the near (lower) pass clears the button under the seal.
+    const ry = R * 1.05 * spread;
 
     ORBIT.forEach((o, i) => {
       const g = items.current[i];
@@ -126,7 +130,9 @@ function OrbitRig({ progress, bandRef, anchorRef, mobile }: Props) {
       const th = o.phase + t * 0.22 + leave * 1.2;
       // Tilted ring seen from slightly above: far side recedes, near side comes forward.
       const depth = -Math.sin(th);
-      g.position.set(cx + Math.cos(th) * rx, cy + Math.sin(th) * ry * 0.92, depth * R * 1.1);
+      // The near (lower) half of the ring is squashed so passes cross the seal, never the button below it.
+      const sy = Math.sin(th);
+      g.position.set(cx + Math.cos(th) * rx, cy + R * 0.15 + sy * ry * (sy < 0 ? 0.55 : 1), depth * R * 1.1);
       g.scale.setScalar(R * o.scale * (mobile ? 0.85 : 1) * (0.88 + 0.12 * depth));
       const turn = o.rock ? Math.sin(t * 0.8) * 0.5 : t * 0.55 + i;
       sp.rotation.set(o.tilt[0] + Math.sin(t * 0.7 + i) * 0.12, o.tilt[1] + turn, o.tilt[2]);
@@ -140,10 +146,27 @@ function OrbitRig({ progress, bandRef, anchorRef, mobile }: Props) {
       {ORBIT.map((o, i) => (
         <group key={o.key} ref={keep(items, i)}>
           <group ref={keep(spins, i)}>
-            {o.key === "pen" && <FountainPen />}
-            {o.key === "books" && <Books />}
-            {o.key === "watch" && <Watch />}
-            {o.key === "gift" && <GiftBox />}
+            {/* real models, with the procedural props holding each slot while they stream in */}
+            {o.key === "pen" && (
+              <Suspense fallback={<FountainPen />}>
+                <PenModel />
+              </Suspense>
+            )}
+            {o.key === "books" && (
+              <Suspense fallback={<Books />}>
+                <BooksModel />
+              </Suspense>
+            )}
+            {o.key === "watch" && (
+              <Suspense fallback={<Watch />}>
+                <WatchModel />
+              </Suspense>
+            )}
+            {o.key === "gift" && (
+              <Suspense fallback={<GiftBox />}>
+                <GiftModel />
+              </Suspense>
+            )}
           </group>
         </group>
       ))}
@@ -154,10 +177,13 @@ function OrbitRig({ progress, bandRef, anchorRef, mobile }: Props) {
 export default function HeroScene(props: Props) {
   return (
     <View className="pointer-events-none absolute inset-0">
-      <PerspectiveCamera makeDefault position={[0, 0, 14]} fov={30} />
-      <StudioLights cheap={props.mobile} />
-      <PencilRig {...props} />
-      <OrbitRig {...props} />
+      {/* Own boundary: a scene that is still loading must not blank the shared canvas (and every other scene). */}
+      <Suspense fallback={null}>
+        <PerspectiveCamera makeDefault position={[0, 0, 14]} fov={30} />
+        <StudioLights cheap={props.mobile} />
+        <PencilRig {...props} />
+        <OrbitRig {...props} />
+      </Suspense>
     </View>
   );
 }

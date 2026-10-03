@@ -1,10 +1,11 @@
-import { useMemo, useRef, type RefObject } from "react";
+import { Suspense, useMemo, useRef, type RefObject } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { PerspectiveCamera, View } from "@react-three/drei";
 import * as THREE from "three";
 import { Pencil, setGroupOpacity, type PencilHandle } from "./Pencil";
 import { FountainPen, PEN_LENGTH } from "./FountainPen";
 import { StudioLights } from "./StudioLights";
+import { PenModel } from "./Models";
 import { CUSTOM_TIMING } from "../sections/customTiming";
 import { span } from "../sections/storesTiming";
 import type { Progress } from "../lib/motion";
@@ -74,7 +75,10 @@ function Writer({ progress, tip, hostRef }: Props) {
         <Pencil ref={pencil} />
       </group>
       <group ref={penRig}>
-        <FountainPen />
+        {/* the real pen model writes; the procedural pen holds its place while it loads */}
+        <Suspense fallback={<FountainPen />}>
+          <PenModel />
+        </Suspense>
       </group>
     </>
   );
@@ -83,9 +87,12 @@ function Writer({ progress, tip, hostRef }: Props) {
 export default function CustomScene(props: Props) {
   return (
     <View className="pointer-events-none absolute inset-0">
-      <PerspectiveCamera makeDefault position={[0, 0, 14]} fov={30} />
-      <StudioLights />
-      <Writer {...props} />
+      {/* Own boundary: a scene that is still loading must not blank the shared canvas (and every other scene). */}
+      <Suspense fallback={null}>
+        <PerspectiveCamera makeDefault position={[0, 0, 14]} fov={30} />
+        <StudioLights />
+        <Writer {...props} />
+      </Suspense>
     </View>
   );
 }
