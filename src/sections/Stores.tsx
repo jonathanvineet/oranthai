@@ -38,9 +38,8 @@ export function Stores() {
     apply(0);
     const ctx = gsap.context(() => {
       gsap.timeline({
-        scrollTrigger: mobile
-          ? { trigger: section.current, start: "top 55%", end: "bottom 75%", scrub: 0.4, onUpdate: (s) => apply(s.progress) }
-          : { trigger: section.current, start: "top top", end: "+=240%", pin: true, scrub: 0.5, onUpdate: (s) => apply(s.progress) },
+        // Pinned on every screen size: the section holds until all four pins and the route have played.
+        scrollTrigger: { trigger: section.current, start: "top top", end: mobile ? "+=200%" : "+=240%", pin: true, scrub: mobile ? 0.4 : 0.5, onUpdate: (s) => apply(s.progress) },
       });
     }, section);
     scheduleRefresh(libs);
@@ -51,17 +50,21 @@ export function Stores() {
   }, [animate, mobile, libs]);
 
   return (
-    <section id="stores" ref={section} aria-labelledby="stores-title" className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#f6ede4_0%,#fae3d3_30%,#fcefe2_100%)] md:h-[100dvh] md:min-h-[680px]">
+    <section id="stores" ref={section} aria-labelledby="stores-title" className={`relative isolate overflow-hidden bg-[linear-gradient(180deg,#f6ede4_0%,#fae3d3_30%,#fcefe2_100%)] md:h-[100dvh] md:min-h-[680px] ${animate ? "max-md:h-[100svh] max-md:min-h-[560px]" : ""}`}>
       <Orb className="-left-32 bottom-10 size-80 bg-orb" />
       <Orb className="-right-20 -top-24 size-72 bg-peach" />
       <Star className="right-[38%] top-[12%] size-5 text-sky-300" />
 
-      <div className="relative mx-auto grid h-full max-w-[1400px] grid-cols-1 gap-8 px-4 pb-20 pt-24 md:grid-cols-12 md:gap-6 md:px-8 md:pb-10 md:pt-24">
-        <div className="flex min-h-0 flex-col md:col-span-7">
+      {/* Phones: one compact screen (heading, map filling the middle, 2x2 branch list) so it can pin. */}
+      <div className="relative mx-auto flex h-full max-w-[1400px] flex-col gap-4 px-4 pb-6 pt-20 md:grid md:grid-cols-12 md:gap-6 md:px-8 md:pb-10 md:pt-24">
+        <div className="flex min-h-0 flex-1 flex-col md:col-span-7">
           <Heading id="stores-title" before="Our" accent="stores">
-            <p className="mt-4 max-w-[38ch] text-navy-700">Four branches across Tamil Nadu. Drop in at the one nearest you.</p>
+            <p className="mt-2 max-w-[38ch] text-sm text-navy-700 md:mt-4 md:text-base">Four branches across Tamil Nadu. Drop in at the one nearest you.</p>
           </Heading>
-          <div ref={map} className="relative mx-auto mt-2 aspect-[4/5] w-full max-w-[520px] min-h-0 md:mt-0 md:aspect-auto md:max-w-none md:flex-1">
+          <div
+            ref={map}
+            className={`relative mx-auto mt-1 w-full min-h-0 md:mt-0 md:aspect-auto md:max-w-none md:flex-1 ${animate ? "max-md:min-h-[170px] max-md:flex-1" : "aspect-[4/5] max-w-[420px]"}`}
+          >
             {use3d ? (
               near && (
                 <Suspense fallback={null}>
@@ -75,18 +78,18 @@ export function Stores() {
         </div>
 
         <div className="flex flex-col justify-center md:col-span-5">
-          <ol className="m-0 grid list-none grid-cols-2 gap-x-4 gap-y-8 p-0 md:grid-cols-1 md:gap-y-5">
+          <ol className="m-0 grid list-none grid-cols-2 gap-x-3 gap-y-3 p-0 md:grid-cols-1 md:gap-y-5">
             {branches.map((b, i) => (
               <li
                 key={b.id}
                 data-branch
-                className={`group flex flex-col items-center gap-3 text-center transition-[opacity,transform] duration-700 ease-out-soft md:flex-row md:items-center md:gap-5 md:text-left ${
+                className={`group flex flex-row items-center gap-2.5 text-left transition-[opacity,transform] duration-700 ease-out-soft md:gap-5 ${
                   animate ? "md:-translate-x-2 md:data-[active]:translate-x-0" : ""
                 } ${i % 2 ? "md:ml-24" : ""}`}
               >
                 <div
                   ref={(el) => void (leaders.current[i].badge = el)}
-                  className="relative grid size-24 shrink-0 place-items-center rounded-full md:size-28"
+                  className="relative grid size-12 shrink-0 place-items-center rounded-full md:size-28"
                 >
                   <img
                     src={b.icon}
@@ -100,24 +103,30 @@ export function Stores() {
                     }`}
                   />
                   {b.headOffice && (
-                    <span className="absolute -bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border-2 border-white bg-accent px-2.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-white">
+                    <span className="absolute -bottom-3 left-1/2 hidden md:inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full border-2 border-white bg-accent px-2.5 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-white">
                       <MaskIcon name="band-icon-star" className="size-3" />
                       Head office
                     </span>
                   )}
                 </div>
                 <div>
-                  <p className="m-0 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-accent-ink">{b.region}</p>
-                  <h3 className="m-0 font-display text-2xl italic md:text-3xl">{b.name}</h3>
-                  <p className="m-0 font-display text-sm italic text-navy-700">
+                  <p className="m-0 text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-accent-ink md:text-[0.7rem] md:tracking-[0.2em]">{b.region}</p>
+                  <h3 className="m-0 font-display text-[clamp(0.9rem,4.2vw,1.05rem)] italic leading-tight md:text-3xl">{b.name}</h3>
+                  <p className="m-0 font-display text-xs italic leading-snug text-navy-700 md:text-sm">
                     {b.landmark}
                     {b.placeholderLandmark && <span className="sr-only"> (illustration is a placeholder)</span>}
                   </p>
+                  {b.headOffice && (
+                    <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-accent px-1.5 py-px text-[0.55rem] font-semibold uppercase tracking-[0.12em] text-white md:hidden">
+                      <MaskIcon name="band-icon-star" className="size-2.5" />
+                      Head office
+                    </span>
+                  )}
                 </div>
               </li>
             ))}
           </ol>
-          <p className="mt-10 flex items-center gap-3 font-display text-lg italic text-accent-ink md:mt-8 md:text-xl">
+          <p className="mt-4 flex items-center gap-2 font-display text-sm italic text-accent-ink md:mt-8 md:gap-3 md:text-xl">
             <MaskIcon name="band-icon-pin" className="size-5 shrink-0" />
             {taglines.stores}.
           </p>

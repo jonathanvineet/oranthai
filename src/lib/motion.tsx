@@ -92,6 +92,8 @@ export function MotionProvider({ children }: { children: ReactNode }) {
     Promise.all([import("gsap"), import("gsap/ScrollTrigger"), import("lenis")]).then(([{ gsap }, { ScrollTrigger }, { default: LenisCtor }]) => {
       if (dead) return;
       gsap.registerPlugin(ScrollTrigger);
+      // Phones: the address bar showing/hiding resizes the viewport; don't re-measure pins for that.
+      ScrollTrigger.config({ ignoreMobileResize: true });
       const l = new LenisCtor({ autoRaf: false, lerp: 0.11, wheelMultiplier: 0.9 });
       l.on("scroll", ScrollTrigger.update);
       const tick = (t: number) => l.raf(t * 1000);
