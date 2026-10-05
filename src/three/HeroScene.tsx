@@ -105,6 +105,7 @@ function OrbitRig({ progress, bandRef, anchorRef, mobile }: Props) {
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
   const items = useRef<(THREE.Group | null)[]>([]);
   const spins = useRef<(THREE.Group | null)[]>([]);
+  const occluder = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
     const anchor = anchorRef.current;
@@ -117,6 +118,17 @@ function OrbitRig({ progress, bandRef, anchorRef, mobile }: Props) {
     const cx = ((a.left + a.width / 2 - host.left) / host.width - 0.5) * vw;
     const cy = -((a.top + a.height / 2 - host.top) / host.height - 0.5) * vh;
     const R = (a.width / 2) * (vw / host.width);
+
+    // Invisible disc over the HTML seal (plus its dashed ring, 10px out). It draws no colour but writes
+    // depth, so props on the far half of the orbit disappear behind the logo and near ones pass in front.
+    // It sits slightly back so the pencil (at z=0) is never clipped; scaled up to cover the same screen area.
+    const occ = occluder.current;
+    if (occ) {
+      const z = -R * 0.2;
+      const persp = (camera.position.z - z) / camera.position.z;
+      occ.position.set(cx, cy, z);
+      occ.scale.setScalar((R + 10 * (vw / host.width)) * persp);
+    }
 
     // As the pencil starts to lie down, the orbit spins outward and fades, clearing the stage.
     const leave = THREE.MathUtils.smoothstep(progress.current, 0, 0.4);
@@ -135,7 +147,7 @@ function OrbitRig({ progress, bandRef, anchorRef, mobile }: Props) {
       const depth = -Math.sin(th);
       // The near (lower) half of the ring is squashed so passes cross the seal, never the button below it.
       const sy = Math.sin(th);
-      g.position.set(cx + Math.cos(th) * rx, cy + R * 0.15 + sy * ry * (sy < 0 ? 0.55 : 1), depth * R * 1.1);
+      g.position.set(cx + Math.cos(th) * rx, cy + R * 0.1 + sy * ry * (sy < 0 ? 0.4 : 0.92), depth * R * 1.1);
       g.scale.setScalar(R * o.scale * (mobile ? 0.85 : 1) * (0.88 + 0.12 * depth));
       const turn = o.rock ? Math.sin(t * 0.8) * 0.5 : t * 0.55 + i;
       sp.rotation.set(o.tilt[0] + Math.sin(t * 0.7 + i) * 0.12, o.tilt[1] + turn, o.tilt[2]);
@@ -146,6 +158,10 @@ function OrbitRig({ progress, bandRef, anchorRef, mobile }: Props) {
   const keep = (arr: typeof items, i: number) => (el: THREE.Group | null) => void (arr.current[i] = el);
   return (
     <>
+      <mesh ref={occluder} renderOrder={-1}>
+        <circleGeometry args={[1, 64]} />
+        <meshBasicMaterial colorWrite={false} />
+      </mesh>
       {ORBIT.map((o, i) => (
         <group key={o.key} ref={keep(items, i)}>
           <group ref={keep(spins, i)}>
