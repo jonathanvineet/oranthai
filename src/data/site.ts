@@ -24,7 +24,8 @@ export const taglines = {
 
 export const kural = {
   number: 391,
-  tamil: ["கற்க கசடறக் கற்பவை", "கற்றபின் நிற்க அதற்குத் தக"],
+  // Traditional kural layout: four words, then three.
+  tamil: ["கற்க கசடறக் கற்பவை கற்றபின்", "நிற்க அதற்குத் தக"],
   english: "Learn thoroughly what is worth learning, then live by what you learn.",
 };
 

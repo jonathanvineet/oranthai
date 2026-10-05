@@ -20,9 +20,10 @@ export function Quote() {
         >
           “
         </span>
-        <blockquote lang="ta" className="m-0 font-tamil text-[clamp(1.25rem,4.4vw,3.25rem)] font-medium leading-[1.6] text-navy">
+        <blockquote lang="ta" className="m-0 font-tamil text-[clamp(0.95rem,4.3vw,2.6rem)] font-medium leading-[1.6] text-navy">
           {kural.tamil.map((line) => (
-            <span key={line} className="block">
+            // each line of the couplet stays on one line (four words, then three)
+            <span key={line} className="block whitespace-nowrap">
               {line.split(" ").map((w, i) => (
                 <span key={i} className="inline-block overflow-hidden px-[0.14em] pb-[0.12em] pt-[0.18em] align-bottom">
                   <span data-word className="inline-block">
