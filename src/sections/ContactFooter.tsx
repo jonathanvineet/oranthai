@@ -58,9 +58,9 @@ export function ContactFooter() {
             <ul className="m-0 flex list-none flex-col gap-1 p-0">
               {company.phones.map((ph) => (
                 <li key={ph}>
-                  <a href={`tel:+91${ph}`} className="group inline-flex items-center gap-4 rounded-full py-1 font-display text-[clamp(2rem,4.4vw,3.25rem)] font-medium tracking-tight text-white no-underline">
-                    <span className="grid size-11 place-items-center rounded-full bg-accent transition-transform duration-300 group-hover:-rotate-12">
-                      <MaskIcon name="icon-phone" className="size-5 text-white" />
+                  <a href={`tel:+91${ph}`} className="group inline-flex min-h-11 items-center gap-3 rounded-full py-1 font-display text-[clamp(1.4rem,2.4vw,1.9rem)] font-medium tracking-tight text-white no-underline">
+                    <span className="grid size-9 place-items-center rounded-full bg-accent transition-transform duration-300 group-hover:-rotate-12">
+                      <MaskIcon name="icon-phone" className="size-4 text-white" />
                     </span>
                     <span className="decoration-sky-300 decoration-2 underline-offset-8 group-hover:underline">{ph}</span>
                   </a>

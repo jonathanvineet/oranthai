@@ -53,9 +53,12 @@ function PencilRig({ progress, bandRef, anchorRef, mobile }: Props) {
     const t = state.clock.elapsedTime;
 
     // Floating state: tilted beside the seal, bobbing and slowly turning.
-    const floatLen = (mobile ? 0.62 : 0.4) * vp.width;
-    const floatX = anchorCentre.x + (mobile ? 0 : a.width * 0.95 * pxToWorld);
-    const floatY = anchorCentre.y + (mobile ? a.height * 0.62 * pxToWorld : 0) + Math.sin(t * 0.9) * 0.08;
+    // It floats outside the orbit (to the right on desktop, above it on phones) so the circling
+    // props never pass through it.
+    const sealR = (a.width / 2) * pxToWorld;
+    const floatLen = mobile ? 0.5 * vp.width : Math.min(0.22 * vp.width, sealR * 4.2);
+    const floatX = anchorCentre.x + (mobile ? 0 : sealR * 3.75);
+    const floatY = anchorCentre.y + (mobile ? sealR * 1.9 : sealR * 0.2) + Math.sin(t * 0.9) * 0.08;
 
     // Landed state: exactly the band's box.
     const landLen = b.width * pxToWorld;
@@ -68,7 +71,7 @@ function PencilRig({ progress, bandRef, anchorRef, mobile }: Props) {
     const k = thick / (PENCIL_RADIUS * 2);
     g.scale.setScalar(k);
     pencil.current?.setLength(len / k);
-    g.rotation.z = THREE.MathUtils.lerp(mobile ? -0.32 : 0.42, 0, p);
+    g.rotation.z = THREE.MathUtils.lerp(mobile ? -0.12 : 1.05, 0, p);
     g.rotation.y = THREE.MathUtils.lerp(Math.sin(t * 0.35) * 0.35, 0, p);
 
     // Roll around its own axis while floating, settle on a flat face when landed.
@@ -119,9 +122,9 @@ function OrbitRig({ progress, bandRef, anchorRef, mobile }: Props) {
     const leave = THREE.MathUtils.smoothstep(progress.current, 0, 0.4);
     const spread = 1 + leave * 1.8;
     const t = state.clock.elapsedTime;
-    const rx = R * (mobile ? 1.5 : 2.35) * spread;
+    const rx = R * (mobile ? 1.5 : 2.2) * spread;
     // Flatter and lifted slightly, so the near (lower) pass clears the button under the seal.
-    const ry = R * 1.05 * spread;
+    const ry = R * (mobile ? 0.75 : 1.05) * spread;
 
     ORBIT.forEach((o, i) => {
       const g = items.current[i];
